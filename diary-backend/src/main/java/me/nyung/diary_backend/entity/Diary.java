@@ -13,7 +13,8 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @Getter
 @Entity
-public class DiaryList {
+@Table(name = "diary_list")
+public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,4 +28,32 @@ public class DiaryList {
 
     @Column(name = "content", length = 500, nullable = false)
     private String content;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public BigInteger getCreatedDate() {
+        return created_date;
+    }
+
+    public void setCreatedDate(BigInteger created_date) {
+        this.created_date = created_date;
+    }
+
+    public Integer getEmotionId() {
+        return emotion_id;
+    }
+
+    public void setEmotionId(Integer emotion_id) {
+        this.emotion_id = emotion_id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
