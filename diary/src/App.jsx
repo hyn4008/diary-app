@@ -9,8 +9,9 @@ import Notfound from "./pages/Notfound";
 import { getEmotionImage } from "./util/get-emotion-image";
 import Button from "./componenets/Button";
 import Header from "./componenets/Header";
-import { ofetch } from "ofetch";
+import axios from "axios";
 
+/*
 function reducer(state, action) {
   let nextState;
 
@@ -38,89 +39,62 @@ function reducer(state, action) {
   localStorage.setItem("diary", JSON.stringify(nextState));
   return nextState;
 }
+*/
 
 export const DiaryStateContext = createContext();
-export const DiaryDispatchContext = createContext();
+export const DiarySetContext = createContext();
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, dispatch] = useReducer(reducer, []);
-  const idRef = useRef(0);
+  const [diarys, setDiarys] = useState([]);
 
   useEffect(() => {
-    // const storedData = localStorage.getItem("diary");
-    // if (!storedData) {
-    //   // 에러 처리(1)
-    //   // undefined 또는 Null일 경우, JSON.parse 함수 호출 시 에러 발생
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // const parsedData = JSON.parse(storedData);
-
-    // if (!Array.isArray(parsedData)) {
-    //   // 에러 처리(2)
-    //   // parsedData가 배열이 아닌 경우, forEach 함수 호출 시 에러 발생
-    //   setIsLoading(false);
-    //   return;
-    // }
-
-    // let maxId = 0;
-    // parsedData.forEach((item) => {
-    //   if (Number(item.id) > maxId) {
-    //     maxId = Number(item.id);
-    //   }
-    // });
-
-    // idRef.current = maxId + 1;
-
-    const fetchData = async () => {
+    const getData = async () => {
       try {
-        const parsedData = await ofetch("http://localhost:8080/home");
-        console.log(parsedData);
-
-        dispatch({
-          type: "INIT",
-          data: parsedData,
-        });
+        const res = await axios.get("http://localhost:8080/home");
+        setDiarys(res.data);
       } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setIsLoading(false);
+        console.error('데이터를 불러오지 못했습니다.', error);
       }
+      setIsLoading(false);
     };
 
-    fetchData();
+    getData();
   }, []);
 
-  const onCreate = (createdDate, emotionId, content) => {
-    dispatch({
-      type: "CREATE",
-      data: {
-        id: idRef.current++,
-        createdDate,
-        emotionId,
-        content,
-      },
-    });
+  const onCreate = (created_date, emotion_id, content) => {
+    try {
+      const res = axios.post("http://localhost:8080/create", {
+            created_date,
+            emotion_id,
+            content,
+      });
+    } catch(error) {
+        alert('일기를 등록하는 데에 실패했습니다. 다시 시도해주세요');
+        console.error('일기를 등록하지 못했습니다. 다시 시도해주세요', error);
+    }
   };
 
-  const onUpdate = (id, createdDate, emotionId, content) => {
-    dispatch({
-      type: "UPDATE",
-      data: {
-        id,
-        createdDate,
-        emotionId,
-        content,
-      },
-    });
+  const onUpdate = (id, created_date, emotion_id, content) => {
+    try {
+      const res = axios.put(`http://localhost:8080/update/${id}`, {
+          created_date,
+          emotion_id,
+          content,
+        });
+      } catch(error) {
+        alert('일기를 수정하는 데에 실패했습니다. 다시 시도해주세요');
+        console.error('일기를 수정하지 못했습니다. 다시 시도해주세요', error);
+      };
   };
 
   const onDelete = (id) => {
-    dispatch({
-      type: "DELETE",
-      id,
-    });
+    try {
+      const res = axios.delete(`http://localhost:8080/delete/${id}`);
+    } catch(error) {
+      alert('일기를 삭제하는 데에 실패했습니다. 다시 시도해주세요');
+      console.error('일기를 삭제하지 못했습니다. 다시 시도해주세요', error);
+    };
   };
 
   if (isLoading) {
@@ -129,8 +103,8 @@ function App() {
 
   return (
     <>
-      <DiaryStateContext.Provider value={data}>
-        <DiaryDispatchContext.Provider value={{ onCreate, onUpdate, onDelete }}>
+      <DiaryStateContext.Provider value={diarys}>
+        <DiarySetContext.Provider value={{ onCreate, onUpdate, onDelete }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/new" element={<New />} />
@@ -138,7 +112,7 @@ function App() {
             <Route path="/edit/:id" element={<Edit />} />
             <Route path="*" element={<Notfound />} />
           </Routes>
-        </DiaryDispatchContext.Provider>
+        </DiarySetContext.Provider>
       </DiaryStateContext.Provider>
     </>
   );

@@ -9,6 +9,18 @@ export default defineConfig({
       '/home': {
         target: 'http://localhost:8080',
         changeOrigin: true,
+      },
+      '/create': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+      '/update': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+      '/delete': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
       }
     }
   }

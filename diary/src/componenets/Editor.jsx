@@ -9,8 +9,8 @@ import { getStringDate } from "../util/get-stringed-date";
 const Editor = ({ initData, onSubmit }) => {
   const nav = useNavigate();
   const [input, setInput] = useState({
-    createdDate: new Date(),
-    emotionId: 3,
+    created_date: new Date(),
+    emotion_id: 3,
     content: "",
   });
 
@@ -18,7 +18,7 @@ const Editor = ({ initData, onSubmit }) => {
     if (initData) {
       setInput({
         ...initData,
-        createdDate: new Date(Number(initData.createdDate)),
+        created_date: new Date(Number(initData.created_date)),
       });
     }
   }, [initData]);
@@ -27,7 +27,7 @@ const Editor = ({ initData, onSubmit }) => {
     let name = e.target.name;
     let value = e.target.value;
 
-    if (name === "createdDate") {
+    if (name === "created_date") {
       value = new Date(value);
     }
 
@@ -47,9 +47,9 @@ const Editor = ({ initData, onSubmit }) => {
         <h3>오늘의 날짜</h3>
         <input
           type="date"
-          name="createdDate"
+          name="created_date"
           onChange={onChangeInput}
-          value={getStringDate(input.createdDate)}
+          value={getStringDate(input.created_date)}
         />
       </section>
       <section className="emotion_section">
@@ -60,14 +60,14 @@ const Editor = ({ initData, onSubmit }) => {
               onClick={() =>
                 onChangeInput({
                   target: {
-                    name: "emotionId",
+                    name: "emotion_id",
                     value: item.emotionId,
                   },
                 })
               }
               key={item.emotionId}
               {...item}
-              isSelected={item.emotionId === input.emotionId}
+              isSelected={item.emotionId === input.emotion_id}
             />
           ))}
         </div>
