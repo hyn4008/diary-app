@@ -62,35 +62,38 @@ function App() {
     getData();
   }, []);
 
-  const onCreate = (created_date, emotion_id, content) => {
+  const onCreate = async (created_date, emotion_id, content) => {
     try {
-      const res = axios.post("http://localhost:8080/create", {
+      const res = await axios.post("http://localhost:8080/create", {
             created_date,
             emotion_id,
             content,
       });
+      setDiarys([res.data, ...diarys]);
     } catch(error) {
         alert('일기를 등록하는 데에 실패했습니다. 다시 시도해주세요');
         console.error('일기를 등록하지 못했습니다. 다시 시도해주세요', error);
     }
   };
 
-  const onUpdate = (id, created_date, emotion_id, content) => {
+  const onUpdate = async (id, created_date, emotion_id, content) => {
     try {
-      const res = axios.put(`http://localhost:8080/update/${id}`, {
+      const res = await axios.put(`http://localhost:8080/update/${id}`, {
           created_date,
           emotion_id,
           content,
         });
+        setDiarys(diarys.map((diary) => (diary.id === res.data.id ? res.data : diary))); 
       } catch(error) {
         alert('일기를 수정하는 데에 실패했습니다. 다시 시도해주세요');
         console.error('일기를 수정하지 못했습니다. 다시 시도해주세요', error);
       };
   };
 
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
     try {
-      const res = axios.delete(`http://localhost:8080/delete/${id}`);
+      const res = await axios.delete(`http://localhost:8080/delete/${id}`);
+      setDiarys(diarys.filter((diary) => diary.id !== res.data));
     } catch(error) {
       alert('일기를 삭제하는 데에 실패했습니다. 다시 시도해주세요');
       console.error('일기를 삭제하지 못했습니다. 다시 시도해주세요', error);
