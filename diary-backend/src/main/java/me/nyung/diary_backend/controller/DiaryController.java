@@ -21,29 +21,19 @@ public class DiaryController {
 
     @PostMapping("/create")
     public Diary createDiary(@RequestBody Diary diary) {
-        Diary requestDiary = new Diary();
-        requestDiary.setCreatedDate(diary.getCreatedDate());
-        requestDiary.setEmotionId(diary.getEmotionId());
-        requestDiary.setContent(diary.getContent());
-
-        Diary newDiary = diaryService.createDiary(requestDiary);
+        Diary newDiary = diaryService.createDiary(diary);
         return newDiary;
     }
 
     @PutMapping("/update/{id}")
     public Diary updateDiary(@PathVariable int id, @RequestBody Diary diary) {
-        Diary requestDiary = new Diary();
-        requestDiary.setCreatedDate(diary.getCreatedDate());
-        requestDiary.setEmotionId(diary.getEmotionId());
-        requestDiary.setContent(diary.getContent());
-
-        Diary updateDiary = diaryService.updateDiary(id, requestDiary);
+        Diary updateDiary = diaryService.updateDiary(id, diary);
         return updateDiary;
     }
 
     @DeleteMapping("/delete/{id}")
     public int deleteDiary(@PathVariable int id) {
         int deleteId = diaryService.deleteDiary(id);
-        return deleteId;
+        return deleteDiaryId;
     }
 }

@@ -2,6 +2,8 @@ import "./App.css";
 import { useReducer, useRef, createContext, useEffect, useState } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Diary from "./pages/Diary";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
@@ -10,36 +12,6 @@ import { getEmotionImage } from "./util/get-emotion-image";
 import Button from "./componenets/Button";
 import Header from "./componenets/Header";
 import axios from "axios";
-
-/*
-function reducer(state, action) {
-  let nextState;
-
-  switch (action.type) {
-    case "INIT":
-      return action.data;
-    case "CREATE": {
-      nextState = [action.data, ...state];
-      break;
-    }
-    case "UPDATE": {
-      nextState = state.map((item) =>
-        String(item.id) === String(action.data.id) ? action.data : item
-      );
-      break;
-    }
-    case "DELETE": {
-      nextState = state.filter((item) => String(item.id) !== String(action.id));
-      break;
-    }
-    default:
-      return state;
-  }
-
-  localStorage.setItem("diary", JSON.stringify(nextState));
-  return nextState;
-}
-*/
 
 export const DiaryStateContext = createContext();
 export const DiarySetContext = createContext();
@@ -67,12 +39,12 @@ function App() {
       const res = await axios.post("http://localhost:8080/create", {
             created_date,
             emotion_id,
-            content,
+        content,
       });
       setDiarys([res.data, ...diarys]);
     } catch(error) {
-        alert('일기를 등록하는 데에 실패했습니다. 다시 시도해주세요');
-        console.error('일기를 등록하지 못했습니다. 다시 시도해주세요', error);
+      alert('일기를 등록하는 데에 실패했습니다. 다시 시도해주세요');
+      console.error('일기를 등록하지 못했습니다. 다시 시도해주세요', error);
     }
   };
 
@@ -81,12 +53,12 @@ function App() {
       const res = await axios.put(`http://localhost:8080/update/${id}`, {
           created_date,
           emotion_id,
-          content,
-        });
-        setDiarys(diarys.map((diary) => (diary.id === res.data.id ? res.data : diary))); 
+        content,
+      });
+      setDiarys(diarys.map((diary) => (diary.id === res.data.id ? res.data : diary)));
       } catch(error) {
-        alert('일기를 수정하는 데에 실패했습니다. 다시 시도해주세요');
-        console.error('일기를 수정하지 못했습니다. 다시 시도해주세요', error);
+      alert('일기를 수정하는 데에 실패했습니다. 다시 시도해주세요');
+      console.error('일기를 수정하지 못했습니다. 다시 시도해주세요', error);
       };
   };
 
@@ -110,6 +82,8 @@ function App() {
         <DiarySetContext.Provider value={{ onCreate, onUpdate, onDelete }}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/new" element={<New />} />
             <Route path="/diary/:id" element={<Diary />} />
             <Route path="/edit/:id" element={<Edit />} />

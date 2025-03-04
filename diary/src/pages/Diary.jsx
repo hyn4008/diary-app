@@ -20,8 +20,8 @@ const Diary = () => {
 
   // component 마운트 후 useEffect 실행 -> setCurDiaryItem 호출
   // curDiaryItem 초기화 후 구조 분해 할당
-  const { createdDate, emotionId, content } = curDiaryItem;
-  const titleDate = getStringDate(new Date(createdDate));
+  const { created_date, emotion_id, content } = curDiaryItem;
+  const titleDate = getStringDate(new Date(created_date));
 
   return (
     <div>
@@ -39,7 +39,7 @@ const Diary = () => {
           <Button text={"수정하기"} onClick={() => nav(`/edit/${params.id}`)} />
         }
       />
-      <Viewer emotionId={emotionId} content={content} />
+      <Viewer emotionId={emotion_id} content={content} />
     </div>
   );
 };

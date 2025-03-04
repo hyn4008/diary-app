@@ -21,6 +21,14 @@ export default defineConfig({
       '/delete': {
         target: 'http://localhost:8080',
         changeOrigin: true,
+      },
+      '/auth/login': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+      '/auth/signup': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
       }
     }
   }
