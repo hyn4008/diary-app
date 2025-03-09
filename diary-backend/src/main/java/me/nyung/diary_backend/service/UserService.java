@@ -28,4 +28,8 @@ public class UserService {
     public User findByKakaoId(BigInteger kakaoId) {
         return userRepository.findByKakaoId(kakaoId);
     }
+
+    public boolean checkPassword(User user, String rawPassword) {
+        return rawPassword.equals(user.getPassword());
+    }
 }

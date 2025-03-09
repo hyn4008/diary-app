@@ -16,21 +16,24 @@ import axios from "axios";
 export const DiaryStateContext = createContext();
 export const DiarySetContext = createContext();
 
+// 요청을 보낼 때 쿠키가 자동으로 포함되도록 설정
+axios.defaults.withCredentials = true;
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [diarys, setDiarys] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/home");
-        setDiarys(res.data);
-      } catch (error) {
-        console.error('데이터를 불러오지 못했습니다.', error);
-      }
-      setIsLoading(false);
-    };
+  const getData = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/home");
+      setDiarys(res.data);
+    } catch (error) {
+      console.error('데이터를 불러오지 못했습니다.', error);
+    }
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
     getData();
   }, []);
 
@@ -82,7 +85,7 @@ function App() {
         <DiarySetContext.Provider value={{ onCreate, onUpdate, onDelete }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login onLoginSuccess={getData} />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/new" element={<New />} />
             <Route path="/diary/:id" element={<Diary />} />

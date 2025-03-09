@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const nav = useNavigate();
@@ -13,6 +13,13 @@ const Login = () => {
                 username,
                 password,
             });
+
+            const token = res.data;
+            document.cookie = `ACCESS_TOKEN=${token}; path=/;`; // 토큰을 쿠키에 저장
+            console.log('Login successful, Access token:', token);
+            
+            onLoginSuccess(); // 로그인 성공 시 데이터 다시 불러오기
+
             alert('로그인에 성공했습니다.');
             nav("/");
         } catch (error) {

@@ -33,7 +33,7 @@ public class DiaryController {
 
     @DeleteMapping("/delete/{id}")
     public int deleteDiary(@PathVariable int id) {
-        int deleteId = diaryService.deleteDiary(id);
+        int deleteDiaryId = diaryService.deleteDiary(id);
         return deleteDiaryId;
     }
 }
