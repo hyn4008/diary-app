@@ -36,7 +36,7 @@ const Edit = () => {
     <div>
       <Header
         title={"일기 수정하기"}
-        leftChild={<Button text={"< 뒤로 가기"} onClick={() => nav(-1)} />}
+        leftChild={<Button text={"< 뒤로 가기"} onClick={() => nav("/")} />}
         rightChild={
           <Button
             text={"삭제하기"}

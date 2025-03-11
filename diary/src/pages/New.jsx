@@ -24,7 +24,7 @@ const New = () => {
         leftChild={
           <Button
             onClick={() => {
-              nav(-1);
+              nav("/");
             }}
             text={"< 뒤로 가기"}
           />

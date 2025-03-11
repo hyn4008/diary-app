@@ -31,7 +31,7 @@ const Diary = () => {
           <Button
             text={"< 뒤로 가기"}
             onClick={() => {
-              nav(-1);
+              nav("/");
             }}
           />
         }
