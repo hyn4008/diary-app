@@ -1,6 +1,6 @@
 import "./App.css";
 import { useReducer, useRef, createContext, useEffect, useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -8,10 +8,8 @@ import Diary from "./pages/Diary";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Notfound from "./pages/Notfound";
-import { getEmotionImage } from "./util/get-emotion-image";
-import Button from "./componenets/Button";
-import Header from "./componenets/Header";
 import axios from "axios";
+import AuthRoute from './Auth';
 
 export const DiaryStateContext = createContext();
 export const DiarySetContext = createContext();
@@ -75,6 +73,10 @@ function App() {
     };
   };
 
+  const handleLoginSuccess = () => {
+    getData();
+  };
+
   if (isLoading) {
     return <div>데이터 로딩중입니다...</div>;
   }
@@ -84,12 +86,12 @@ function App() {
       <DiaryStateContext.Provider value={diarys}>
         <DiarySetContext.Provider value={{ onCreate, onUpdate, onDelete }}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login onLoginSuccess={getData} />} />
+            <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/new" element={<New />} />
-            <Route path="/diary/:id" element={<Diary />} />
-            <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/" element={<AuthRoute element={Home} />} />
+            <Route path="/new" element={<AuthRoute element={New} />} />
+            <Route path="/diary/:id" element={<AuthRoute element={Diary} />} />
+            <Route path="/edit/:id" element={<AuthRoute element={Edit} />} />
             <Route path="*" element={<Notfound />} />
           </Routes>
         </DiarySetContext.Provider>

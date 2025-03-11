@@ -21,7 +21,7 @@ const Login = ({ onLoginSuccess }) => {
             onLoginSuccess(); // 로그인 성공 시 데이터 다시 불러오기
 
             alert('로그인에 성공했습니다.');
-            nav("/");
+            nav(-1);
         } catch (error) {
             alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
             console.error('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.', error);
