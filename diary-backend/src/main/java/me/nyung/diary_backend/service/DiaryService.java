@@ -1,46 +1,40 @@
 package me.nyung.diary_backend.service;
 
-import jakarta.transaction.Transactional;
 import me.nyung.diary_backend.entity.Diary;
 import me.nyung.diary_backend.repository.DiaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DiaryService {
 
     @Autowired
-    DiaryRepository diaryRepository;
+    private DiaryRepository diaryRepository;
 
-    public List<Diary> getAllDiarys() {
-        return diaryRepository.findAll();
+    // user_id로 다이어리 조회
+    public List<Diary> getAllDiariesByUserId(Integer user_id) {
+        return diaryRepository.findByUser_id(user_id);
     }
 
+    // 다이어리 생성
     public Diary createDiary(Diary diary) {
         return diaryRepository.save(diary);
     }
 
-    @Transactional
+    // 다이어리 수정
     public Diary updateDiary(int id, Diary diary) {
-        Optional<Diary> optionalDiary = diaryRepository.findById(id);
-        Diary targetDiary = optionalDiary.orElseThrow(() -> new RuntimeException("Diary not found"));
-
-        targetDiary.setCreatedDate(diary.getCreatedDate());
-        targetDiary.setEmotionId(diary.getEmotionId());
-        targetDiary.setContent(diary.getContent());
-
-        return targetDiary;
+        return diaryRepository.save(diary);
     }
 
-    @Transactional
-    public int deleteDiary(int id) {
-        Optional<Diary> optionalDiary = diaryRepository.findById(id);
-        Diary targetDiary = optionalDiary.orElseThrow(() -> new RuntimeException("Diary not found"));
+    // 다이어리 삭제
+    public void deleteDiary(int id) {
         diaryRepository.deleteById(id);
+    }
 
-        return id;
+    // ID로 다이어리 조회
+    public Diary getDiaryById(int id) {
+        return diaryRepository.findById(id).orElse(null);
     }
 }

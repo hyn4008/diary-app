@@ -28,7 +28,8 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody User user) {
         User requestUser = userService.findByUsername(user.getUsername());
         if (requestUser != null && userService.checkPassword(requestUser, user.getPassword())) {
-            String token = jwtTokenProvider.generateToken(user.getUsername());
+            // 로그인 성공 시, JWT 토큰 생성
+            String token = jwtTokenProvider.generateToken(requestUser.getId(), requestUser.getUsername());
             return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");

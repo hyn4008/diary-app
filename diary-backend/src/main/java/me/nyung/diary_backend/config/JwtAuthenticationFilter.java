@@ -37,11 +37,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // 토큰을 검증하여 유효하다면, 인증 정보를 SecurityContext에 저장
+        // 토큰을 검증하여 유효하다면, userID를 인증 정보로 SecurityContext에 저장
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            String username = jwtTokenProvider.getClaimsFromToken(token).getSubject();
-            if (username != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, null);
+            Integer userId = jwtTokenProvider.getUserIdFromToken(token); // subject에서 userid 추출
+            if (userId != null) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, null, null);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

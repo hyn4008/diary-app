@@ -14,9 +14,10 @@ public class JwtTokenProvider {
    private static final long EXPIRATION_TIME = 86400000; // 1 day
 
    // 토큰 생성
-   public String generateToken(String username) {
+   public String generateToken(Integer user_id, String username) {
        return Jwts.builder()
-               .setSubject(username)
+               .setSubject(user_id.toString())
+               .claim("username", username)
                .setIssuedAt(new Date())
                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
@@ -30,6 +31,16 @@ public class JwtTokenProvider {
                .parseClaimsJws(token)
                .getBody();
    }
+
+    // 토큰에서 userid 추출
+    public Integer getUserIdFromToken(String token) {
+        return Integer.parseInt(getClaimsFromToken(token).getSubject()); // subject에서 userid 추출
+    }
+
+    // 토큰에서 username 추출
+    public String getUsernameFromToken(String token) {
+        return getClaimsFromToken(token).get("username", String.class); // claim에서 username 추출
+    }
 
    // 토큰 유효성 검사
    public boolean validateToken(String token) {

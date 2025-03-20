@@ -28,6 +28,9 @@ public class Diary {
     @Column(name = "content", length = 500, nullable = false)
     private String content;
 
+    @Column(name = "user_id")
+    private Integer user_id;
+
     // Getter
     public Integer getId() {
         return id;
@@ -45,7 +48,15 @@ public class Diary {
         return content;
     }
 
+    public Integer getUserId() {
+        return user_id;
+    }
+
     // Setter
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setCreatedDate(BigInteger created_date) {
         this.created_date = created_date;
     }
@@ -56,5 +67,9 @@ public class Diary {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setUserId(Integer user_id) {
+        this.user_id = user_id;
     }
 }
