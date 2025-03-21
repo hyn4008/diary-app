@@ -29,7 +29,7 @@ public class Diary {
     private String content;
 
     @Column(name = "user_id")
-    private Integer user_id;
+    private Integer userId;
 
     // Getter
     public Integer getId() {
@@ -49,7 +49,7 @@ public class Diary {
     }
 
     public Integer getUserId() {
-        return user_id;
+        return userId;
     }
 
     // Setter
@@ -69,7 +69,7 @@ public class Diary {
         this.content = content;
     }
 
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

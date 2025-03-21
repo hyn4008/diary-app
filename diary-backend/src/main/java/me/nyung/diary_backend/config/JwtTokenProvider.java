@@ -14,9 +14,9 @@ public class JwtTokenProvider {
    private static final long EXPIRATION_TIME = 86400000; // 1 day
 
    // 토큰 생성
-   public String generateToken(Integer user_id, String username) {
+   public String generateToken(Integer userId, String username) {
        return Jwts.builder()
-               .setSubject(user_id.toString())
+               .setSubject(userId.toString())
                .claim("username", username)
                .setIssuedAt(new Date())
                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

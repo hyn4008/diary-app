@@ -36,11 +36,9 @@ public class DiaryController {
     // 다이어리 목록 조회
     @GetMapping("/home")
     public ResponseEntity<List<Diary>> getAllDiaries(HttpServletRequest request) {
-        // String token = extractTokenFromCookies(request);
-        // Integer userId = jwtTokenProvider.getUserIdFromToken(token);
-        // System.out.println("토큰에서 추출한 user ID : ", userId);
-        Integer user_id = 1;
-        List<Diary> diaries = diaryService.getAllDiariesByUserId(user_id); 
+        String token = extractTokenFromCookies(request);
+        Integer userId = jwtTokenProvider.getUserIdFromToken(token);
+        List<Diary> diaries = diaryService.getAllDiariesByUserId(userId); 
         return ResponseEntity.ok(diaries);
     }
 
@@ -75,7 +73,7 @@ public class DiaryController {
 
     // 다이어리 삭제
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteDiary(@PathVariable int id, HttpServletRequest request) {
+    public ResponseEntity<Integer> deleteDiary(@PathVariable int id, HttpServletRequest request) {
         String token = extractTokenFromCookies(request);
         Integer userId = jwtTokenProvider.getUserIdFromToken(token);
 
@@ -86,6 +84,6 @@ public class DiaryController {
         }
 
         diaryService.deleteDiary(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(id);
     }
 }

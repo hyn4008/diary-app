@@ -13,9 +13,9 @@ public class DiaryService {
     @Autowired
     private DiaryRepository diaryRepository;
 
-    // user_id로 다이어리 조회
-    public List<Diary> getAllDiariesByUserId(Integer user_id) {
-        return diaryRepository.findByUser_id(user_id);
+    // userId로 다이어리 조회
+    public List<Diary> getAllDiariesByUserId(Integer userId) {
+        return diaryRepository.findByUserId(userId);
     }
 
     // 다이어리 생성

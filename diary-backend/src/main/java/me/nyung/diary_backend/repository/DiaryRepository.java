@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary, Integer> {
     // userId로 다이어리 조회
-    List<Diary> findByUser_id(Integer user_id);
+    List<Diary> findByUserId(Integer userId);
 }
