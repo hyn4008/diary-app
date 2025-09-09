@@ -45,6 +45,10 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+bootJar {
+	archiveFileName = 'app.jar'
+}
+
 //def frontendDir = "/Users/nyung/Documents/diary-app/diary"
 //
 //sourceSets {
