@@ -1,11 +1,18 @@
-# OpenJDK 17을 기반으로 하는 슬림 이미지 사용
-FROM openjdk:17-jdk-slim
+# 1단계: 빌드
+FROM gradle:7.6-jdk17 AS build
 
-# 작업 디렉터리 설정
 WORKDIR /app
 
-# 빌드된 JAR 파일을 이미지 안으로 복사
-COPY build/libs/app.jar app.jar
+COPY build.gradle settings.gradle ./
+COPY src ./src
 
-# 컨테이너가 실행될 때 JAR 실행
+RUN gradle bootJar --no-daemon
+
+# 2단계: 실행용 이미지
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build /app/build/libs/*.jar app.jar
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
