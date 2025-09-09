@@ -1,15 +1,24 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL}
+    url: jdbc:mysql://mysql.railway.internal:3306/diary_app_db?useSSL=false&serverTimezone=UTC
     username: root
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    password: EgIZChhWzREtQZLEenRMrwpGjsKpnYoB
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
-    show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: ${SPRING_DATASOURCE_URL}
+#    username: root
+#    password: ${SPRING_DATASOURCE_PASSWORD}
+#  jpa:
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQLDialect
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        format_sql: true
